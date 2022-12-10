@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.aksi.application.CurrencyExchangeController">
+   <children>
+      <Button fx:id="updateButton" layoutX="481.0" layoutY="28.0" mnemonicParsing="false" onAction="#onUpdateButtonClick" text="Update" />
+      <MenuBar layoutY="1.0" prefHeight="27.0" prefWidth="550.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onSaveCSVButtonClick" text="Export to CSV" />
+                  <MenuItem mnemonicParsing="false" onAction="#onSaveJSONButtonClick" text="Export to JSON" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TableView fx:id="currencyTable" layoutX="10.0" layoutY="56.0" prefHeight="480.0" prefWidth="530.0">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="38.04298686981201" text="ID" />
+            <TableColumn fx:id="codeColumn" prefWidth="48.95698547363281" text="Code" />
+          <TableColumn fx:id="nameColumn" prefWidth="194.90533447265625" text="Name" />
+            <TableColumn fx:id="nominalColumn" prefWidth="60.0" text="Nominal" />
+            <TableColumn fx:id="valueColumn" prefWidth="76.0" text="Value" />
+            <TableColumn fx:id="dateColumn" prefWidth="95.0" text="Date" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
