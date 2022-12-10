@@ -1,6 +1,5 @@
 package ru.aksi.application;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,21 +7,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
-import retrofit.RestAdapter;
-import retrofit.converter.JacksonConverter;
-import ru.aksi.Converter;
 import ru.aksi.Database;
-import ru.aksi.dto.ValCurs;
-import ru.aksi.dto.Valute;
-import ru.aksi.http.CbrService;
+import ru.aksi.http.Downloader;
 import ru.aksi.model.CurrencyExchange;
 import ru.aksi.repository.CurrencyExchangeRepositorySqliteImpl;
 import ru.aksi.writer.Writer;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class CurrencyExchangeController {
     private ObservableList<CurrencyExchange> currencies = FXCollections.observableArrayList();
@@ -62,25 +54,7 @@ public class CurrencyExchangeController {
 
     @FXML
     private void onUpdateButtonClick() {
-        RestAdapter retrofit = new RestAdapter.Builder()
-                .setEndpoint("https://www.cbr.ru")
-                .setConverter(new JacksonConverter(new XmlMapper()))
-                .build();
-
-        CbrService cbrService = retrofit.create(CbrService.class);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyy");
-        String date = LocalDate.now().format(formatter);
-        ValCurs exchange = cbrService.getExchange(date);
-        List<Valute> valuteList = exchange.getValuteList();
-
-        CurrencyExchangeRepositorySqliteImpl repository = CurrencyExchangeRepositorySqliteImpl.getInstance();
-        repository.deleteAll();
-        for (Valute valute: valuteList) {
-            CurrencyExchange currency = Converter.valuteToCurrency(valute, date);
-            repository.insert(currency);
-        }
-        Database.getInstance().closeConnection();
+        Downloader.loadDataFromAPI();
         updateTableData();
     }
 

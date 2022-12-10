@@ -3,7 +3,6 @@ package ru.aksi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import ru.aksi.writer.util.LocalDateSerializer;
 
 import java.time.LocalDate;
