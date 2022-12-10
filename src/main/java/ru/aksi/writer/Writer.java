@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvParser;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import ru.aksi.Database;
 import ru.aksi.model.CurrencyExchange;
 import ru.aksi.repository.CurrencyExchangeRepositorySqliteImpl;
 
@@ -20,6 +21,7 @@ public class Writer {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream, 1024);
             OutputStreamWriter writerOutputStream = new OutputStreamWriter(bufferedOutputStream, "UTF-8");
             myObjectWriter.writeValue(writerOutputStream, CurrencyExchangeRepositorySqliteImpl.getInstance().findAll());
+            Database.getInstance().closeConnection();
         } catch (IOException e) {
             System.err.println("Error exporting to CSV: " + e);
         }
@@ -29,6 +31,7 @@ public class Writer {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(CurrencyExchangeRepositorySqliteImpl.getInstance().findAll());
+            Database.getInstance().closeConnection();
             writer.write(json);
             writer.close();
         } catch (IOException e) {
