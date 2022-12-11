@@ -12,6 +12,7 @@ import java.io.*;
 
 public class Writer {
     public static void writeCSVToFile(File file) {
+        if (file == null) return;
         try {
             CsvMapper mapper = new CsvMapper();
             CsvSchema schema = mapper.schemaFor(CurrencyExchange.class).withUseHeader(true);
@@ -26,6 +27,7 @@ public class Writer {
         }
     }
     public static void writeJSONToFile(File file) {
+        if (file == null) return;
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             ObjectMapper mapper = new ObjectMapper();
