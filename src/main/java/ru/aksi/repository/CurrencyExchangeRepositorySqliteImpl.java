@@ -39,6 +39,8 @@ public class CurrencyExchangeRepositorySqliteImpl implements CurrencyExchangeRep
                 currencyExchange.setDate(resultSet.getDate("date").toLocalDate());
                 result = currencyExchange;
             }
+            resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             System.err.printf("CurrencyExchangeSqlite - findById() error: " + e);
         }
@@ -64,6 +66,8 @@ public class CurrencyExchangeRepositorySqliteImpl implements CurrencyExchangeRep
                 currencyExchange.setDate(resultSet.getDate("date").toLocalDate());
                 resultList.add(currencyExchange);
             }
+            resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             System.err.printf("CurrencyExchangeSqlite - findAll() error: " + e);
         }
@@ -90,6 +94,8 @@ public class CurrencyExchangeRepositorySqliteImpl implements CurrencyExchangeRep
                 currencyExchange.setDate(resultSet.getDate("date").toLocalDate());
                 resultList.add(currencyExchange);
             }
+            resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             System.err.printf("CurrencyExchangeSqlite - findAllByCode() error: " + e);
         }
@@ -106,6 +112,7 @@ public class CurrencyExchangeRepositorySqliteImpl implements CurrencyExchangeRep
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             result = statement.executeUpdate();
+            statement.close();
         } catch (SQLException e) {
             System.err.printf("CurrencyExchangeSqlite - delete() error: " + e);
         }
@@ -121,7 +128,10 @@ public class CurrencyExchangeRepositorySqliteImpl implements CurrencyExchangeRep
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
-            connection.prepareStatement(resetQuery).executeUpdate();
+            statement.close();
+            PreparedStatement resetStatement = connection.prepareStatement(resetQuery);
+            resetStatement.executeUpdate();
+            resetStatement.close();
         } catch (SQLException e) {
             System.err.printf("CurrencyExchangeSqlite - delete() error: " + e);
         }
@@ -141,6 +151,7 @@ public class CurrencyExchangeRepositorySqliteImpl implements CurrencyExchangeRep
             statement.setString(4, currency.getCurrencyCode());
             statement.setDate(5, Date.valueOf(currency.getDate()));
             result = statement.executeUpdate();
+            statement.close();
         } catch (SQLException e) {
             System.err.printf("CurrencyExchangeSqlite - insert() error: " + e);
         }
@@ -160,6 +171,7 @@ public class CurrencyExchangeRepositorySqliteImpl implements CurrencyExchangeRep
             statement.setDate(3, Date.valueOf(currency.getDate()));
             statement.setString(4, currency.getCurrencyCode());
             result = statement.executeUpdate();
+            statement.close();
         } catch (SQLException e) {
             System.err.printf("CurrencyExchangeSqlite - update() error: " + e);
         }

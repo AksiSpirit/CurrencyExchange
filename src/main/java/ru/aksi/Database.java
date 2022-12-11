@@ -41,6 +41,7 @@ public class Database {
             connection = this.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
+            statement.close();
             this.closeConnection();
         } catch (SQLException e) {
             System.err.printf("Database - initDb() error: " + e);
